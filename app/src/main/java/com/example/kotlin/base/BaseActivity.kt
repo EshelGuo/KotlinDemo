@@ -16,6 +16,7 @@
 
 package com.example.kotlin.base
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -31,7 +32,7 @@ import com.gyf.immersionbar.ImmersionBar
 open class BaseActivity : AppCompatActivity(){
 
     private val immersion: ImmersionConfig = ImmersionConfig()
-    private val permissionHolder: PermissionHolder = PermissionHolder()
+    val permissionHolder: PermissionHolder = PermissionHolder()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,12 +55,6 @@ open class BaseActivity : AppCompatActivity(){
         }
     }
 
-    fun requestPermissions(vararg permission:String, callback: PermissionClosure){
-        val requestCode = permissionHolder.generateRequestCode()
-        permissionHolder.save(requestCode, callback)
-        ActivityCompat.requestPermissions(this, permission, requestCode)
-    }
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -67,6 +62,11 @@ open class BaseActivity : AppCompatActivity(){
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         permissionHolder.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        permissionHolder.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onDestroy() {

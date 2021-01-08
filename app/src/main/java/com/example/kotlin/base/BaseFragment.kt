@@ -16,6 +16,7 @@
 
 package com.example.kotlin.base
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -30,16 +31,10 @@ import com.example.kotlin.base.permission.PermissionResult
  */
 abstract class BaseFragment(contentLayoutId: Int) : Fragment(contentLayoutId) {
 
-    private val permissionHolder: PermissionHolder = PermissionHolder()
+    val permissionHolder: PermissionHolder = PermissionHolder()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-    }
-
-    fun requestPermissions(vararg permission:String, callback: PermissionClosure){
-        val requestCode = permissionHolder.generateRequestCode()
-        permissionHolder.save(requestCode, callback)
-        requestPermissions(permission, requestCode)
     }
 
     override fun onRequestPermissionsResult(
@@ -49,5 +44,10 @@ abstract class BaseFragment(contentLayoutId: Int) : Fragment(contentLayoutId) {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         permissionHolder.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        permissionHolder.onActivityResult(requestCode, resultCode, data)
     }
 }

@@ -49,7 +49,7 @@ class PermissionResult(val permissions: Array<out String>, val grantResults: Int
      * 监听授权成功的权限
      * permissions列表均为授权成功权限
      */
-    fun granted(closure: (permissions: Array<out String>)->Unit){
+    fun onGranted(closure: (permissions: Array<out String>)->Unit){
         if(grantedPermissions.isNotEmpty()){
             closure.invoke(grantedPermissions)
         }
@@ -59,7 +59,7 @@ class PermissionResult(val permissions: Array<out String>, val grantResults: Int
      * 监听授权失败的权限
      * permissions列表均为授权失败权限
      */
-    fun denied(closure: (permissions: Array<out String>)->Unit){
+    fun onDenied(closure: (permissions: Array<out String>)->Unit){
         if(deniedPermissions.isNotEmpty()) {
             closure.invoke(deniedPermissions)
         }

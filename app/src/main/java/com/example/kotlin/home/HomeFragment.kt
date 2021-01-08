@@ -21,6 +21,7 @@ import android.os.Bundle
 import android.view.View
 import com.example.kotlin.R
 import com.example.kotlin.base.BaseFragment
+import com.example.kotlin.base.permission.requestPermissions
 
 /**
  * <br>createBy guoshiwen
@@ -31,8 +32,8 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requestPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE) {
-            granted {
+        requestPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE){
+            onGranted {
 
             }
         }
