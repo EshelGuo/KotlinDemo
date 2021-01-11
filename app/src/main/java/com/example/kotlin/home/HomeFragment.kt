@@ -17,11 +17,17 @@
 package com.example.kotlin.home
 
 import android.Manifest
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.util.Log
 import android.view.View
 import com.example.kotlin.R
 import com.example.kotlin.base.BaseFragment
 import com.example.kotlin.base.permission.requestPermissions
+import kotlinx.android.synthetic.main.fragment_home.*
+
 
 /**
  * <br>createBy guoshiwen
@@ -32,10 +38,23 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requestPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE){
+        requestPermissions(
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) {
             onGranted {
-
+                loadFiles()
             }
         }
+    }
+
+    private fun loadFiles() {
+        target.setText("")
+        val SDCard = Environment.getExternalStorageDirectory()
+        target.append(SDCard.absolutePath)
+        val forEach = SDCard.list()
+        forEach?.forEach { dir ->
+                target.append("$dir\n")
+            }
     }
 }
